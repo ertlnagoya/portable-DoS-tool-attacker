@@ -1,0 +1,12 @@
+攻撃指示画面
+ユーザ名/パスワード:root/pass
+
+攻撃コマンド
+「攻撃指示　IPアドレス　攻撃時間」
+攻撃指示:udp,vse,syn,ack,greip,greeth,udpplain(,stomp,dns)
+IPアドレス:172.24.8.100,172.~,~~
+攻撃時間:1~3600
+
+ボット数確認コマンド
+「botcount」
+(prompt.txt)
