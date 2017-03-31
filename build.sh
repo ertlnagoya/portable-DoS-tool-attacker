@@ -53,11 +53,11 @@ elif [ "$1" == "debug" ]; then
     #armv4l-gcc -std=c99 -DDEBUG bot/*.c "$FLAGS" -static -g -o debug/mirai.arm
     #armv6l-gcc -std=c99 -DDEBUG bot/*.c "$FLAGS" -static -g -o debug/mirai.arm7
     #sh4-gcc -std=c99 -DDEBUG bot/*.c "$FLAGS" -static -g -o debug/mirai.sh4
-    gcc -std=c99 tools/enc.c -g -o debug/enc
-    gcc -std=c99 tools/nogdb.c -g -o debug/nogdb
-    gcc -std=c99 tools/badbot.c -g -o debug/badbot
+    #gcc -std=c99 tools/enc.c -g -o debug/enc
+    #gcc -std=c99 tools/nogdb.c -g -o debug/nogdb
+    #gcc -std=c99 tools/badbot.c -g -o debug/badbot
     go build -o debug/cnc cnc/*.go
-    go build -o debug/scanListen tools/scanListen.go
+    #go build -o debug/scanListen tools/scanListen.go
 else
     echo "Unknown parameter $1: $0 <debug | release>"
 fi

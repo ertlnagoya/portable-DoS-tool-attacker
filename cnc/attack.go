@@ -148,11 +148,11 @@ var attackInfoLookup map[string]AttackInfo = map[string]AttackInfo {
         []uint8 { 2, 3, 4, 5, 6, 7 , 23},
         "Valve source engine specific flood",
     },
-    "dns": AttackInfo {
+/*    "dns": AttackInfo {
         2,
         []uint8 { 2, 3, 4, 5, 6, 7, 8, 9 },
         "DNS resolver flood using the targets domain, input IP is ignored",
-    },
+    },*/
     "syn": AttackInfo {
         3,
         []uint8 { 2, 3, 4, 5, 6, 7, 11, 12, 13, 14, 15, 16, 17, 18, 25 },
@@ -163,11 +163,11 @@ var attackInfoLookup map[string]AttackInfo = map[string]AttackInfo {
         []uint8 { 0, 1, 2, 3, 4, 5, 6, 7, 11, 12, 13, 14, 15, 16, 17, 18, 25 },
         "ACK flood",
     },
-    "stomp": AttackInfo {
+   /* "stomp": AttackInfo {
         5,
         []uint8 { 0, 1, 2, 3, 4, 5, 7, 11, 12, 13, 14, 15, 16 },
         "TCP stomp flood",
-    },
+    },*/
     "greip": AttackInfo {
         6,
         []uint8 {0, 1, 2, 3, 4, 5, 6, 7, 19, 25},
