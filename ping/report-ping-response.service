@@ -2,9 +2,11 @@
 Description=Report packet stats service
 
 [Service]
+WorkingDirectory=/home/odroid/
+User=odroid
 Type=simple
-ExecStart=/home/odroid/report_packet_stats "192.168.11.3"
-
+ExecStart=/home/odroid/ping.sh
+Restart=always
 
 [Install]
 WantedBy=default.target

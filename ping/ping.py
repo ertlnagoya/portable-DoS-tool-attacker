@@ -1,5 +1,5 @@
 # coding: utf-8
-
+#!/usr/bin/python
 """
     A pure python ping implementation using raw sockets.
 
@@ -40,32 +40,10 @@ ICMP_ECHO = 8 # Echo request (per RFC792)
 ICMP_MAX_RECV = 2048 # Max size of incoming buffer
 MAX_SLEEP = 1000
 
-HOST = argv[2]
 TIME_PORT = 37133
 MONI_PORT = 33844
 
-#time synchronization
-soc = socket(AF_INET)
-soc.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
-print("[*] connecting to %s:%s" % (HOST, TIME_PORT))
-soc.connect((HOST, TIME_PORT))
 
-t1 = time.time()
-#print t1
-soc.send(str(t1))
-t2 = soc.recv(1024)
-t2 = float(t2)
-#print t2
-t3 =  time.time()
-#print t3
-dt = t2 - t1 / 2 - t3 / 2
-print dt 
-soc.close()
-
-soc = socket(AF_INET)
-soc.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
-print("[*] connecting to %s:%s" % (HOST, TIME_PORT))
-soc.connect((HOST, MONI_PORT))
 
 def calculate_checksum(source_string):
     """
@@ -222,7 +200,7 @@ class Ping(object):
                 
                 #print row_timestamp
                 timestamp = time.time() + dt
-                print timestamp
+                #print timestamp
                 if delay == -2:
                     delay = 10
                     error = -2 
@@ -393,9 +371,31 @@ def verbose_ping(hostname, timeout=1000, count=3, packet_size=55):
 
 
 if __name__ == '__main__':
-
-    # FIXME: Add a real CLI
+    #time synchronization
     if len(sys.argv) == 3:
-        verbose_ping(sys.argv[1])
+        HOST = argv[2]
     else:
         print "Error: call ./ping.py domain.tld monitor.tld"
+        sys.exit()
+    soc = socket(AF_INET)
+    soc.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
+    print("[*] connecting to %s:%s" % (HOST, TIME_PORT))
+    soc.connect((HOST, TIME_PORT))
+
+    t1 = time.time()
+    soc.send(str(t1))
+    t2 = soc.recv(1024)
+    t2 = float(t2)
+    t3 =  time.time()
+    dt = t2 - t1 / 2 - t3 / 2
+    #print dt 
+    soc.close()
+
+    soc = socket(AF_INET)
+    soc.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
+    print("[*] connecting to %s:%s" % (HOST, TIME_PORT))
+    soc.connect((HOST, MONI_PORT))
+    # FIXME: Add a real CLI
+    
+    verbose_ping(sys.argv[1])
+  
