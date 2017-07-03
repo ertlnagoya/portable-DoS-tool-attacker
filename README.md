@@ -5,6 +5,7 @@
 systemctlによりserviceとして自動起動   
 ## bin   
 bot, cncの実行プログラム   
+   
 /etc/rc．local により自動起動 
 ## bot   
 Miraiの攻撃ボットによるプログラム   
@@ -18,5 +19,5 @@ Miraiのコマンド＆コントロールサーバによるプログラム  
 ### ToDo   
 * [ ] systemctlによりserviceとして自動起動 
 ## build.sh   
-ビルド用スクロプト
+ビルド用スクロプト   
 "bash build.sh debug telnet"
