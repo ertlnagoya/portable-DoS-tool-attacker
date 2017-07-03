@@ -1,7 +1,7 @@
 # portable-DoS-tool-attacker   
 ## attak_bandth   
 攻撃帯域取得プログラム   
-アタッカーホストにて取得したパケット量をモニターに報告   
+アタッカーホストにて取得したパケット量をモニターに報告   
 systemctlによりserviceとして自動起動   
 ## bin   
 bot, cncの実行プログラム   
