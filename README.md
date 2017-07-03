@@ -5,8 +5,7 @@
 systemctlによりserviceとして自動起動   
 ## bin   
 bot, cncの実行プログラム   
-   
-/etc/rc．local により自動起動 
+"/etc/rc.local" により自動起動 
 ## bot   
 Miraiの攻撃ボットによるプログラム   
 ## camera   
