@@ -4,7 +4,7 @@
 アタッカーホストにて取得したパケット量をモニターに報告   
 systemctlによりserviceとして自動起動   
 ## bin   
-bot, cncの実行プログラム   
+bot, cncの実行プログラム      
 "/etc/rc.local" により自動起動 
 ## bot   
 Miraiの攻撃ボットによるプログラム   
