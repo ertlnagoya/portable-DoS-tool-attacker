@@ -62,4 +62,10 @@ git clone git@github.com:ertlnagoya/portable-DoS-tool-attacker.git
 [NGR](https://github.com/KeigoNagara)    
 [K-atc](https://github.com/K-atc)    
 
-  
+## Disclaimer
+This repository is for academic purposes, the use of this software is your responsibility.
+
+## Warning
+The file for this repo is being identified by some AV programs as malware.  Please take caution. 
+
+
