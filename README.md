@@ -7,24 +7,23 @@ The portable DoS tool monitor is [here](https://github.com/ertlnagoya/portable-D
 <img width="350" alt="2017-09-25 10 22 39" src="https://user-images.githubusercontent.com/26764885/30840032-02bdea00-a2b0-11e7-82ee-2e580704a730.png">    
 
 ### attak_bandth   
-攻撃帯域取得プログラム   
-アタッカーホストにて取得したパケット量をモニターに報告   
-systemctlによりserviceとして自動起動   
+Attack bandwidth acquisition program.    
+An attacker reports the acquired packet amount to the monitor.    
+Auto start as service by systemctl.    
 ### bin   
-bot, cncの実行プログラム      
-"/etc/rc.local" により自動起動 
+bot & cnc executable program.    
+"/etc/rc.local" to start automatically.    
 ### bot   
-Miraiの攻撃ボットによるプログラム   
-### camera   
-ウェブカメラ似て取得したカメラ画像をモニターに報告   
-systemctlによりserviceとして自動起動 
-### cnc   
-Miraiのコマンド＆コントロールサーバによるプログラム   
-### ping   
-アタッカーから攻撃対象にパケットを送りその応答時間をモニターに報告 
+Mirai's attack bot program.    　　　
 ### build.sh   
-ビルド用スクロプト   
+Build script.        
 "bash build.sh debug telnet"
+### camera   
+Report the camera image acquired with the web camera to the monitor.    
+### cnc   
+Mirai's command & control server.    
+### ping   
+Send the packet from the attacker to the attack target and report its response time to the monitor.　
 
 ## Description
 ### Open-source Software-based Portable DoS Test Tool for IoT Device    
