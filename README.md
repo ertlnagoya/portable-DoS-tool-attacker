@@ -14,6 +14,7 @@ Auto start as service by systemctl.
 bot & cnc executable program.    
 "/etc/rc.local" to start automatically.    
 ### bot   
+[Mirai sorcecode](https://github.com/jgamblin/Mirai-Source-Code)    
 Mirai's attack bot program.    　　　
 ### build.sh   
 Build script.    
@@ -36,7 +37,11 @@ By applying the tool, we can check the vulnerability of an IoT device and unders
 ## Requirement
 - ubuntu 16.04 LTS Xenial Xerus
      - python 2.7
-     -    
+     - gcc    
+     - golang    
+     - electric-fence    
+     - mysql-server    
+     - mysql-client   
 ## Usage
 ### Attacker program Start    
 ```
