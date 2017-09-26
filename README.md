@@ -55,7 +55,7 @@ git clone git@github.com:ertlnagoya/portable-DoS-tool-attacker.git
 ## Licence
 [MIT](https://github.com/ertlnagoya/portable-DoS-tool-monitor/blob/master/LICENSE)
 ## Author
-[Nagara](https://github.com/KeigoNagara)    
+[NGR](https://github.com/KeigoNagara)    
 [K-atc](https://github.com/K-atc)    
 
   
