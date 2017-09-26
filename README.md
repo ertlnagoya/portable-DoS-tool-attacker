@@ -14,7 +14,7 @@ Auto start as service by systemctl.
 bot & cnc executable program.    
 "/etc/rc.local" to start automatically.    
 ### bot   
-[Mirai sorcecode](https://github.com/jgamblin/Mirai-Source-Code)    
+[Mirai BotNet sorcecode](https://github.com/jgamblin/Mirai-Source-Code)    
 Mirai's attack bot program.    　　　
 ### build.sh   
 Build script.    
