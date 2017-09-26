@@ -26,6 +26,7 @@ Report the camera image acquired with the web camera to the monitor.
 ### cnc   
 Mirai's command & control server.    
 ### ping   
+[Python ping package](https://pypi.python.org/pypi/ping)    
 Send the packet from the attacker to the attack target and report its response time to the monitor.　
 
 ## Description
