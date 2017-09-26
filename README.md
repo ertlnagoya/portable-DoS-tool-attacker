@@ -7,7 +7,7 @@ The portable DoS tool monitor is [here](https://github.com/ertlnagoya/portable-D
 <img width="350" alt="2017-09-25 10 22 39" src="https://user-images.githubusercontent.com/26764885/30840032-02bdea00-a2b0-11e7-82ee-2e580704a730.png">    
 
 ### attak_bandth   
-Attack bandwidth acquisition program.    
+Attack bandwidth acquisition program.    
 An attacker reports the acquired packet amount to the monitor.    
 Auto start as service by systemctl.    
 ### bin   
@@ -16,7 +16,7 @@ bot & cnc executable program.
 ### bot   
 Mirai's attack bot program.    　　　
 ### build.sh   
-Build script.        
+Build script.    
 "bash build.sh debug telnet"
 ### camera   
 Report the camera image acquired with the web camera to the monitor.    
