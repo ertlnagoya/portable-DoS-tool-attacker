@@ -18,7 +18,9 @@ bot & cnc executable program.
 Mirai's attack bot program.    　　　
 ### build.sh   
 Build script.    
-"bash build.sh debug telnet"
+```
+bash build.sh debug telnet
+```
 ### camera   
 Report the camera image acquired with the web camera to the monitor.    
 ### cnc   
