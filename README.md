@@ -18,9 +18,6 @@ bot & cnc executable program.
 Mirai's attack bot program.    　　　
 ### build.sh   
 Build script.    
-```
-bash build.sh debug telnet
-```
 ### camera   
 Report the camera image acquired with the web camera to the monitor.    
 ### cnc   
@@ -49,7 +46,7 @@ By applying the tool, we can check the vulnerability of an IoT device and unders
 ### Attacker program Start    
 ```
 ./cnc
-./mirai.dbg
+taskset -c 1,2,3 ./mirai
 ./report_packet_stats
 python webcam_client_odroid.py 
 python ping.py
