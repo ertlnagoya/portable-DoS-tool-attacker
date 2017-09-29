@@ -35,14 +35,17 @@ We can also change the attack method and performance in different target devices
 By applying the tool, we can check the vulnerability of an IoT device and understand the state of the actual DoS attack.     
 
 ## Requirement
-- ubuntu 16.04 LTS Xenial Xerus
-     - python 2.7
-     - gcc    
-     - golang    
-     - [go-shellwords](https://github.com/mattn/go-shellwords)    
-     - electric-fence   
-     - mysql-server    
-     - mysql-client   
+- odroid-c2    
+    - ubuntu 16.04 LTS Xenial Xerus
+         - python 2.7
+         - gcc    
+         - golang    
+         - [go-shellwords](https://github.com/mattn/go-shellwords)    
+         - electric-fence   
+         - mysql-server    
+         - mysql-client   
+- WiFi Module (odroid)
+- ODROID USB-CAM 720P
 ## Usage
 ### Attacker program Start    
 ```
