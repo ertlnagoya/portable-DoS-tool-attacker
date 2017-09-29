@@ -55,6 +55,7 @@ taskset -c 1,2,3 ./mirai
 python webcam_client_odroid.py 
 python ping.py
 ```
+Or use service by systemctl and "/etc/rc.local".    
 ## Install    
 ### Attacker program Install
 ```
