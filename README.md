@@ -39,8 +39,8 @@ By applying the tool, we can check the vulnerability of an IoT device and unders
      - python 2.7
      - gcc    
      - golang    
-     - [go-shellwords](https://github.com/mattn/go-shellwords)　　　　
-     - electric-fence   
+     - [go-shellwords](https://github.com/mattn/go-shellwords)    
+     - electric-fence   
      - mysql-server    
      - mysql-client   
 ## Usage
