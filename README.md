@@ -51,9 +51,9 @@ By applying the tool, we can check the vulnerability of an IoT device and unders
 ```
 ./cnc
 taskset -c 1,2,3 ./mirai
-./report_packet_stats
-python webcam_client_odroid.py 
-python ping.py
+./report_packet_stats [moritor IP]
+python webcam_client_odroid.py [moritor IP]
+python ping.py [target IP] [moritor IP]
 ```
 Or use service by systemctl and "/etc/rc.local".    
 ## Install    
