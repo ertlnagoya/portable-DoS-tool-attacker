@@ -22,23 +22,6 @@ func main() {
         fmt.Println(err)
         return
     }
-/*
-    api, err := net.Listen("tcp", "0.0.0.0:101")
-    if err != nil {
-        fmt.Println(err)
-        return
-    }
-
-    go func() {
-        for {
-            conn, err := api.Accept()
-            if err != nil {
-                break
-            }
-            go apiHandler(conn)
-        }
-    }()
-*/
     for {
         conn, err := tel.Accept()
         if err != nil {
@@ -89,11 +72,6 @@ func initialHandler(conn net.Conn) {
             fmt.Println("[main]initialHandler3")
         NewAdmin(conn).Handle()
     }
-}
-
-func apiHandler(conn net.Conn) {
-    defer conn.Close()
-    //NewApi(conn).Handle()
 }
 
 func readXBytes(conn net.Conn, buf []byte) (error) {

