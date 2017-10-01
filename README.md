@@ -60,6 +60,11 @@ Or use service by systemctl and "/etc/rc.local".
 ### Attacker program Install
 ```
 git clone git@github.com:ertlnagoya/portable-DoS-tool-attacker.git
+```  
+### mysql
+```
+mysql -u root -p 
+db.sql
 ```
 ## Licence
 [MIT](https://github.com/ertlnagoya/portable-DoS-tool-monitor/blob/master/LICENSE)
