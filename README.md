@@ -58,6 +58,27 @@ python ping.py [target IP] [moritor IP]
 ```
 Or use service by systemctl and "/etc/rc.local".    
 ## Install    
+### Ubuntu setup    
+```   
+sudo apt-get update    
+sudo apt-get upgrade    
+sudo apt-get install golang    
+wget https://bootstrap.pypa.io/get-pip.py    
+sudo python get-pip.py     
+sudo apt-get install mysql-server mysql-client    
+```    
+#### Go library setup
+```     
+cd /usr/lib/go-1.6/src/     
+sudo mkdir github.com    
+sudo mkdir github.com/mattn    
+cd github.com/mattn/    
+sudo mv ~/go-shellwords/ ./    
+
+sudo mkdir github.com/go-sql-driver    
+cd github.com/go-sql-driver/    
+sudo mv ~/mysql/ ./     
+```  
 ### Attacker program Install
 ```
 git clone git@github.com:ertlnagoya/portable-DoS-tool-attacker.git
