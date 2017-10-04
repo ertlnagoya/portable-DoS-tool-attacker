@@ -18,20 +18,16 @@ func NewBot(conn net.Conn, version byte, source string) *Bot {
 }
 
 func (this *Bot) Handle() {
-    fmt.Println("NEWBot")
     clientList.AddClient(this)
     defer clientList.DelClient(this)
 
     buf := make([]byte, 2)
     for {
         this.conn.SetDeadline(time.Now().Add(180 * time.Second))
-        //fmt.Println("NEWBot_con")
         if n,err := this.conn.Read(buf); err != nil || n != len(buf) {
-            fmt.Println("NEWBot_fin")
             return
         }
         if n,err := this.conn.Write(buf); err != nil || n != len(buf) {
-            fmt.Println("NEWBot_fin")
             return
         }
     }

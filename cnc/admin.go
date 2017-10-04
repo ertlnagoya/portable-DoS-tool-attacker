@@ -18,11 +18,9 @@ func (this *Admin) Handle() {
     this.conn.Write([]byte("\033[?1049h"))
     this.conn.Write([]byte("\xFF\xFB\x01\xFF\xFB\x03\xFF\xFC\x22"))
 
-    fmt.Println("[admin]start")
     defer func() {
         this.conn.Write([]byte("\033[?1049l"))
     }()
-    fmt.Println("[admin]start")
 
     this.conn.SetDeadline(time.Now().Add(120 * time.Second))
     var userInfo AccountInfo

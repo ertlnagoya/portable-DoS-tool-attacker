@@ -15,8 +15,8 @@ typedef char BOOL;
 typedef uint32_t ipv4_t;
 typedef uint16_t port_t;
 
-#define CNC_ADDRS (uint32_t )INET_ADDR(127,0,0,1)//(172,24,12,100)//(192,168,11,150)/////////////////////////////
-#define CNC_PORT (u_short) 5888//////////////////////////////////
+#define CNC_ADDRS (uint32_t )INET_ADDR(127,0,0,1)
+#define CNC_PORT (u_short) 5888  // 23
 
 #define INET_ADDR(o1,o2,o3,o4) (htonl((o1 << 24) | (o2 << 16) | (o3 << 8) | (o4 << 0)))
 

