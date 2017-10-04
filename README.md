@@ -1,40 +1,55 @@
 Open-source Software-based Portable DoS Test Tool for IoT Devices -Attacker-    
 ====
-The tool comprises a monitor and an attacker.     
-The portable DoS tool attacker performs a DoS attack on the target device and transmits the traffic information to the monitor.   
-The portable DoS tool monitor is [here](https://github.com/ertlnagoya/portable-DoS-tool-monitor).    
+This DoS tool consists of the _monitor_ and _the attacker_. 
+
+The attacker performs a Denial-of-Service (DoS) attack on the target device, 
+and transmits its traffic information to the monitor. 
+
+The monitor tool is available [here](https://github.com/ertlnagoya/portable-DoS-tool-monitor).    
     
 <img width="350" alt="2017-09-25 10 22 39" src="https://user-images.githubusercontent.com/26764885/30840032-02bdea00-a2b0-11e7-82ee-2e580704a730.png">    
 
-### attak_bandth   
-Attack bandwidth acquisition program.    
-An attacker reports the acquired packet amount to the monitor.    
-Auto start as service by systemctl.    
-### bin   
-bot & cnc executable program.    
-"/etc/rc.local" to start automatically.    
-### bot   
-[Mirai BotNet sorcecode](https://github.com/jgamblin/Mirai-Source-Code)    
-Mirai's attack bot program.    　　　
-### build.sh   
-Build script.    
-### camera   
-Report the camera image acquired with the web camera to the monitor.    
-### cnc   
-Mirai's command & control server.    
-### ping   
-[Python ping package](https://pypi.python.org/pypi/ping)    
-Send the packet from the attacker to the attack target and report its response time to the monitor.　
-
 ## Description
-### Open-source Software-based Portable DoS Test Tool for IoT Device    
-We constructed a portable denial of service (DoS) test tool based on the malware *Mirai* and conducted a DoS test on several IoT devices. 
-The tool can visualize the load and adjust the volume of the attack packet. 
+### What is "Open-source Software-based Portable DoS Test Tool for IoT Device?"
+We implemented a portable denial of service (DoS) test tool based on the *Mirai* malware and conducted a DoS test on several IoT devices. 
+The tool visualizes the load, and adjusts the volume of the attack packet manually. 
 These functionalities enable visual checks of the state of a DoS attack. 
-We can also change the attack method and performance in different target devices. 
-By applying the tool, we can check the vulnerability of an IoT device and understand the state of the actual DoS attack.     
+We can also change the attack method and its performance in different target devices. 
+By applying the tool, we can check the vulnerability of an IoT device and understand the state of the actual DoS attack.
 
-## Requirement
+## Directories
+### attak_bandth   
+Attack bandwidth acquisition program.
+The attacker reports the amount of sent packet to the monitor.    
+
+This program can be started automatically using a systemctl service `report-packet-stats.service`. 
+
+### bin   
+There's two executable `./bot` and `./cnc`.
+
+Using `/etc/rc.local` may help you to start these program.
+
+### bot   
+Mirai's attack bot program.
+Originates from [Mirai BotNet sorcecode](https://github.com/jgamblin/Mirai-Source-Code).
+This is source code of `bin/mirai`
+ 　　　
+### build.sh   
+A build script for mirai/cnc.    
+
+### camera   
+Reports the camera image acquired with the web camera to the monitor.  
+
+### cnc   
+Mirai's command & control server. 
+This is source code of `bin/cnc`
+
+### ping   
+__NOTE__: This python script requires [Python ping package](https://pypi.python.org/pypi/ping)    
+
+Pings from the attacker to the attack target, and reports its response time to the monitor.　
+
+## Hardware & Software Requirements
 - odroid-c2    
     - ubuntu 16.04 LTS Xenial Xerus
          - python 2.7
@@ -45,30 +60,40 @@ By applying the tool, we can check the vulnerability of an IoT device and unders
          - electric-fence   
          - mysql-server    
          - mysql-client   
-- WiFi Module (odroid)
+- WiFi Dongle
 - ODROID USB-CAM 720P
+
 ## Usage
-### Attacker program Start    
-```
+### To Start Attacker program
+```bash
+### Terminal 1
 ./cnc
+### Terminal 2
 taskset -c 1,2,3 ./mirai
+### Terminal 3
 ./report_packet_stats [moritor IP]
+### Terminal 4
 python webcam_client_odroid.py [moritor IP]
+### Terminal 5
 python ping.py [target IP] [moritor IP]
 ```
-Or use service by systemctl and "/etc/rc.local".    
-## Install    
-### Ubuntu setup    
-```   
+
+Or use a systemctl service and `/etc/rc.local`.   
+
+## Installation
+### Ubuntu setup  
+
+```bash
 sudo apt-get update    
 sudo apt-get upgrade    
 sudo apt-get install golang    
 wget https://bootstrap.pypa.io/get-pip.py    
 sudo python get-pip.py     
 sudo apt-get install mysql-server mysql-client    
-```    
-#### Go library setup
-```     
+```
+
+#### Golang library setup
+```bash
 cd /usr/lib/go-1.6/src/     
 sudo mkdir github.com    
 sudo mkdir github.com/mattn    
@@ -78,26 +103,28 @@ sudo mv ~/go-shellwords/ ./
 sudo mkdir github.com/go-sql-driver    
 cd github.com/go-sql-driver/    
 sudo mv ~/mysql/ ./     
-```  
+```
+
 ### Attacker program Install
-```
+```bash
 git clone git@github.com:ertlnagoya/portable-DoS-tool-attacker.git
-```  
-### mysql
 ```
+
+### mysql
+```bash
 mysql -u root -p 
 db.sql
 ```
+
 ## Licence
 [MIT](https://github.com/ertlnagoya/portable-DoS-tool-monitor/blob/master/LICENSE)
+
 ## Author
-[NGR](https://github.com/KeigoNagara)    
-[K-atc](https://github.com/K-atc)    
+* [NGR](https://github.com/KeigoNagara)    
+* [K-atc](https://github.com/K-atc)    
 
 ## Disclaimer
 This repository is for academic purposes, the use of this software is your responsibility.
 
 ## Warning
-The file for this repo is being identified by some AV programs as malware.  Please take caution. 
-
-
+The file for this repository is being identified by some AV programs as malware. Please take caution. 
