@@ -128,6 +128,8 @@ sudo mv ~/mysql/ ./
 ### Attacker program Install
 ```bash
 git clone git@github.com:ertlnagoya/portable-DoS-tool-attacker.git
+cd portable-DoS-tool-attacker
+bash build.sh
 ```
 
 ### mysql
