@@ -45,7 +45,7 @@ Mirai's command & control server. 
 This is source code of `bin/cnc`
 
 ### ping   
-__NOTE__: This python script requires [Python ping package](https://pypi.python.org/pypi/ping)    
+This python script referred [Python ping package](https://pypi.python.org/pypi/ping).    
 
 Pings from the attacker to the attack target, and reports its response time to the monitor.　
 
@@ -90,7 +90,7 @@ df
 diskutil unmount /dev/disk2s1
 sudo dd bs=1m if=ubuntu64-16.04.2lts-mate-odroid-c2-20170301.img of=/dev/rdisk2
 ```
-Edit `boot.ini`.
+Edit `boot.ini` for mysql-server.
 ```
 setenv mesontimer "0"  # setenv mesontimer "1"
 ```
