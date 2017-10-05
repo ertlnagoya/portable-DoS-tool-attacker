@@ -81,8 +81,20 @@ python ping.py [target IP] [moritor IP]
 Or use a systemctl service and `/etc/rc.local`.   
 
 ## Installation
-### Ubuntu setup  
-
+### odroid-c2 setup
+Get image file [here](https://odroid.in/ubuntu_16.04lts/ubuntu64-16.04.2lts-mate-odroid-c2-20170301.img.xz).    
+Write image in MacOS.
+```
+unxz ubuntu64-16.04.2lts-mate-odroid-c2-20170301.img.xz
+df
+diskutil unmount /dev/disk2s1
+sudo dd bs=1m if=ubuntu64-16.04.2lts-mate-odroid-c2-20170301.img of=/dev/rdisk2
+```
+Edit `boot.ini`.
+```
+setenv mesontimer "0"  # setenv mesontimer "1"
+```
+### Ubuntu setup  
 ```bash
 sudo apt-get update    
 sudo apt-get upgrade    
@@ -91,15 +103,23 @@ wget https://bootstrap.pypa.io/get-pip.py
 sudo python get-pip.py     
 sudo apt-get install mysql-server mysql-client    
 ```
-
-#### Golang library setup
+### Github setup
 ```bash
+sudo apt-get install git
+git config --global user.name "<ユーザ名>"
+git config --global user.email "<メールアドレス>"
+```
+### Golang library setup
+```bash
+git clone https://github.com/mattn/go-shellwords.git
 cd /usr/lib/go-1.6/src/     
 sudo mkdir github.com    
 sudo mkdir github.com/mattn    
 cd github.com/mattn/    
 sudo mv ~/go-shellwords/ ./    
 
+git clone https://github.com/go-sql-driver/mysql.git
+cd /usr/lib/go-1.6/src/
 sudo mkdir github.com/go-sql-driver    
 cd github.com/go-sql-driver/    
 sudo mv ~/mysql/ ./     
@@ -113,7 +133,11 @@ git clone git@github.com:ertlnagoya/portable-DoS-tool-attacker.git
 ### mysql
 ```bash
 mysql -u root -p 
-db.sql
+```
+Exect `db.sql`.    
+And, add user.
+```mysql
+INSERT INTO users VALUES (NULL, 'root', 'password', 0, 0, 0, 0, -1, 1, 30, '');
 ```
 
 ## Licence
