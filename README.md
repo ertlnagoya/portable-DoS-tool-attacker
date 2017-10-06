@@ -143,7 +143,7 @@ INSERT INTO users VALUES (NULL, 'root', 'password', 0, 0, 0, 0, -1, 1, 30, '');
 ```
 
 ## Licence
-[MIT](https://github.com/ertlnagoya/portable-DoS-tool-monitor/blob/master/LICENSE)
+[GPL3](https://github.com/ertlnagoya/portable-DoS-tool-attacker/blob/master/LICENSE)
 
 ## Author
 * [NGR](https://github.com/KeigoNagara)    
