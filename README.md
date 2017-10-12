@@ -18,33 +18,35 @@ We can also change the attack method and its performance in different target dev
 By applying the tool, we can check the vulnerability of an IoT device and understand the state of the actual DoS attack.
 
 ## Directories
-### attak_bandth   
+### attack/bin   
+There's two executable `./bot` and `./cnc`.
+
+Using `/etc/rc.local` may help you to start these program.
+
+### attack/bot   
+Mirai's attack bot program.
+Originates from [Mirai BotNet sorcecode](https://github.com/jgamblin/Mirai-Source-Code).
+This is source code of `bin/mirai`
+ 　　　
+### attack/build.sh   
+A build script for mirai/cnc.    
+
+
+### attack/cnc   
+Mirai's command & control server. 
+This is source code of `bin/cnc`
+
+### visualize_1/attak_bandth   
 Attack bandwidth acquisition program.
 The attacker reports the amount of sent packet to the monitor.    
 
 This program can be started automatically using a systemctl service `report-packet-stats.service`. 
 
-### bin   
-There's two executable `./bot` and `./cnc`.
-
-Using `/etc/rc.local` may help you to start these program.
-
-### bot   
-Mirai's attack bot program.
-Originates from [Mirai BotNet sorcecode](https://github.com/jgamblin/Mirai-Source-Code).
-This is source code of `bin/mirai`
- 　　　
-### build.sh   
-A build script for mirai/cnc.    
-
-### camera   
+### visualize_1/camera   
 Reports the camera image acquired with the web camera to the monitor.  
 
-### cnc   
-Mirai's command & control server. 
-This is source code of `bin/cnc`
 
-### ping   
+### visualize_2/ping   
 This python script referred [Python ping package](https://pypi.python.org/pypi/ping).    
 
 Pings from the attacker to the attack target, and reports its response time to the monitor.　
@@ -81,7 +83,7 @@ python ping.py [target IP] [moritor IP]
 Or use a systemctl service and `/etc/rc.local`.   
 
 ## Installation
-### odroid-c2 setup
+### 1.odroid-c2 setup
 Get image file [here](https://odroid.in/ubuntu_16.04lts/ubuntu64-16.04.2lts-mate-odroid-c2-20170301.img.xz).    
 Write image in MacOS.
 ```
@@ -94,7 +96,7 @@ Edit `boot.ini` for mysql-server.
 ```
 setenv mesontimer "0"  # setenv mesontimer "1"
 ```
-### Ubuntu setup  
+### 2.Ubuntu setup  
 ```bash
 sudo apt-get update    
 sudo apt-get upgrade    
@@ -103,13 +105,13 @@ wget https://bootstrap.pypa.io/get-pip.py
 sudo python get-pip.py     
 sudo apt-get install mysql-server mysql-client    
 ```
-### Github setup
+### 3.Github setup
 ```bash
 sudo apt-get install git
-git config --global user.name "<ユーザ名>"
-git config --global user.email "<メールアドレス>"
+git config --global user.name "<user name>"
+git config --global user.email "<mail address>"
 ```
-### Golang library setup
+### 4.Golang library setup
 ```bash
 git clone https://github.com/mattn/go-shellwords.git
 cd /usr/lib/go-1.6/src/     
@@ -125,14 +127,14 @@ cd github.com/go-sql-driver/
 sudo mv ~/mysql/ ./     
 ```
 
-### Attacker program Install
+### 5.Attacker program Install
 ```bash
 git clone git@github.com:ertlnagoya/portable-DoS-tool-attacker.git
 cd portable-DoS-tool-attacker
 bash build.sh
 ```
 
-### mysql
+### 6.Mysql setup
 ```bash
 mysql -u root -p 
 ```
@@ -143,7 +145,9 @@ INSERT INTO users VALUES (NULL, 'root', 'password', 0, 0, 0, 0, -1, 1, 30, '');
 ```
 
 ## Licence
-[GPL3](https://github.com/ertlnagoya/portable-DoS-tool-attacker/blob/master/LICENSE)
+`attack` is [GPL3](https://github.com/ertlnagoya/portable-DoS-tool-attacker/blob/master/attack/LICENSE).    
+`visualize_1` is [Apache License 2.0](https://github.com/ertlnagoya/portable-DoS-tool-attacker/blob/master/visualize_1/LICENSE).    
+`visualize_2` is [GPL2](https://github.com/ertlnagoya/portable-DoS-tool-attacker/blob/master/visualize_2/LICENSE).    
 
 ## Author
 * [NGR](https://github.com/KeigoNagara)    
