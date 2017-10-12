@@ -146,7 +146,8 @@ INSERT INTO users VALUES (NULL, 'root', 'password', 0, 0, 0, 0, -1, 1, 30, '');
 
 ## Licence
 Each license is different for each folder.    
-`attack` is [GPL3](https://github.com/ertlnagoya/portable-DoS-tool-attacker/blob/master/attack/LICENSE).    
+`attack` is [GPL3](https://github.com/ertlnagoya/portable-DoS-tool-attacker/blob/master/attack/LICENSE).    
+
 `visualize_1` is [Apache License 2.0](https://github.com/ertlnagoya/portable-DoS-tool-attacker/blob/master/visualize_1/LICENSE).    
 `visualize_2` is [GPL2](https://github.com/ertlnagoya/portable-DoS-tool-attacker/blob/master/visualize_2/LICENSE).    
 
